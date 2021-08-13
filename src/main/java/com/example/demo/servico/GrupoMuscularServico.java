@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+
+import com.example.demo.servico.excecao.DataIntegrityException;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dominio.GrupoMuscular;
@@ -29,12 +32,16 @@ public class GrupoMuscularServico {
 
 	public void delete(Integer id) {
 		buscar(id);
-
-		repo.deleteById(id);
-
+		/*Try catch para não deixar excluir uma entidade que possui outra entidade relacionada.
+		 e capturar isso no recurso.excecoes.ResourceExceptionHandler */
+		try {
+			repo.deleteById(id);
+		}catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Não é possível excluir uma Agrupamento muscular que possui exercícios.");
+		}
 	}
 
-	public List<GrupoMuscular> findAll() {
+	public List<GrupoMuscular> buscarTodos() {
 		return repo.findAll();
 	}
 

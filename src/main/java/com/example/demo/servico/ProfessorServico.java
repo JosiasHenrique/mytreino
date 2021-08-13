@@ -27,6 +27,11 @@ public class ProfessorServico {
 		return obj = repo.save(obj);
 	}
 
+	public Professor update(Professor obj) {
+		buscar(obj.getId()); //Chamada para o método acima que verifica se tem um id.
+		return repo.save(obj);
+	}
+	
 	public void delete(Integer id) {
 		buscar(id);
 

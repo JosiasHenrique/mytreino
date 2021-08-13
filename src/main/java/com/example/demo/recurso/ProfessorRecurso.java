@@ -37,6 +37,12 @@ public class ProfessorRecurso {
 		return ResponseEntity.created(uri).build();
 	}
 	
+	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
+	public ResponseEntity<Void> update(@RequestBody Professor obj, @PathVariable Integer id){
+		obj = servico.update(obj);
+		return ResponseEntity.noContent().build();
+	}
+	
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		servico.delete(id);
