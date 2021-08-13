@@ -11,26 +11,26 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.example.demo.dominio.Exercicio;
-import com.example.demo.servico.ExercicioServico;
+import com.example.demo.dominio.Ficha;
+import com.example.demo.servico.FichaServico;
 
 
 @RestController
-@RequestMapping(value="/exercicios")
-public class ExercicioRecurso {
+@RequestMapping(value="/fichas")
+public class FichaRecurso {
 
 	@Autowired
-	private ExercicioServico servico; 
+	private FichaServico servico; 
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<Exercicio> find(@PathVariable Integer id) {
-		Exercicio obj = servico.buscar(id);
+	public ResponseEntity<Ficha> find(@PathVariable Integer id) {
+		Ficha obj = servico.buscar(id);
 		return ResponseEntity.ok().body(obj);
 	}
 	
 	/*O Método chama um serviço reponsavel por inserir o objeto no banco de dados.*/
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> insert(@RequestBody Exercicio obj){
+	public ResponseEntity<Void> insert(@RequestBody Ficha obj){
 		obj = servico.insert(obj);
 		//retornar a uri do novo obj inserido com o fromCurrentRequest() e converter o id para uri.
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();

@@ -6,23 +6,23 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.dominio.GrupoMuscular;
-import com.example.demo.repositorios.GrupoMuscularRepositorio;
+import com.example.demo.dominio.Professor;
+import com.example.demo.repositorios.ProfessorRepositorio;
 import com.example.demo.servico.excecao.ObjectNotFoundException;
 
 @Service
-public class GrupoMuscularServico {
+public class ProfessorServico {
 
 	@Autowired
-	private GrupoMuscularRepositorio repo;
+	private ProfessorRepositorio repo;
 
-	public GrupoMuscular buscar(Integer id) {
-		Optional<GrupoMuscular> obj = repo.findById(id);
+	public Professor buscar(Integer id) {
+		Optional<Professor> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
-				"Objeto não encontrado! Id: " + id + ", Tipo: " + GrupoMuscular.class.getName()));
+				"Objeto não encontrado! Id: " + id + ", Tipo: " + Professor.class.getName()));
 	}
 
-	public GrupoMuscular insert(GrupoMuscular obj) {
+	public Professor insert(Professor obj) {
 		obj.setId(null);
 		return obj = repo.save(obj);
 	}
@@ -34,7 +34,7 @@ public class GrupoMuscularServico {
 
 	}
 
-	public List<GrupoMuscular> findAll() {
+	public List<Professor> findAll() {
 		return repo.findAll();
 	}
 

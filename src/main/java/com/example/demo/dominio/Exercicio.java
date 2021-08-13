@@ -1,6 +1,10 @@
 package com.example.demo.dominio;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -25,6 +30,10 @@ public class Exercicio implements Serializable{
 	@JoinColumn(name = "grupoMuscular_id")
 	private GrupoMuscular grupoMuscular;
 	
+	@JsonIgnore
+	@OneToMany(mappedBy = "id.exercicio")
+	private Set<MontagemTreino> itens = new HashSet<>();
+	
 	public Exercicio() {}
 
 	public Exercicio(Integer id, String nome, GrupoMuscular grupoMuscular) {
@@ -32,6 +41,15 @@ public class Exercicio implements Serializable{
 		this.id = id;
 		this.nome = nome;
 		this.grupoMuscular = grupoMuscular;
+	}
+	
+	@JsonIgnore
+	public List<Ficha>  getPedidos() {
+		List<Ficha> lista = new ArrayList<>();
+		for (MontagemTreino x : itens) {
+			lista.add(x.getFicha());
+		}
+		return lista;
 	}
 
 	public Integer getId() {

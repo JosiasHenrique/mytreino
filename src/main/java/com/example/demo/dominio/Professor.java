@@ -6,10 +6,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
 @Entity
-public class Aluno implements Serializable {
+public class Professor implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -18,42 +17,17 @@ public class Aluno implements Serializable {
 	private String nome;
 	private String sexo;
 	private Integer idade;
-	private Double altura;
-	private Double peso;
+	private Double salario;
+	
+	public Professor() {}
 
-	@OneToOne(mappedBy = "aluno")
-	private Ficha ficha;
-
-	public Aluno() {
-	}
-
-	public Aluno(Integer id, String nome, String sexo, Integer idade, Double altura, Double peso) {
+	public Professor(Integer id, String nome, String sexo, Integer idade, Double salario) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.sexo = sexo;
 		this.idade = idade;
-		this.altura = altura;
-		this.peso = peso;
-	}
-
-	public String getImc() {
-		double imc = (peso) / (altura * altura);
-		String result = "";
-		if (imc < 18.5) {
-			result = "Magreza";
-		} else if (imc >= 18.5 && imc <= 24.9) {
-			result = "Saudável";
-		} else if (imc >= 25.0 && imc <= 29.9) {
-			result = "Sobrepeso";
-		} else if (imc >= 30.0 && imc <= 34.9) {
-			result = "Obesidade Grau I";
-		} else if (imc >= 35.0 && imc <= 39.9) {
-			result = "Obesidade Grau II";
-		} else {
-			result = "Obesidade Grau III";
-		}
-		return result;
+		this.salario = salario;
 	}
 
 	public Integer getId() {
@@ -88,28 +62,12 @@ public class Aluno implements Serializable {
 		this.idade = idade;
 	}
 
-	public Double getAltura() {
-		return altura;
+	public Double getSalario() {
+		return salario;
 	}
 
-	public void setAltura(Double altura) {
-		this.altura = altura;
-	}
-
-	public Double getPeso() {
-		return peso;
-	}
-
-	public void setPeso(Double peso) {
-		this.peso = peso;
-	}
-
-	public Ficha getFicha() {
-		return ficha;
-	}
-
-	public void setFicha(Ficha ficha) {
-		this.ficha = ficha;
+	public void setSalario(Double salario) {
+		this.salario = salario;
 	}
 
 	@Override
@@ -128,7 +86,7 @@ public class Aluno implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Aluno other = (Aluno) obj;
+		Professor other = (Professor) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -136,4 +94,5 @@ public class Aluno implements Serializable {
 			return false;
 		return true;
 	}
+
 }

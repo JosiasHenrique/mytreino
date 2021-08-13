@@ -2,12 +2,14 @@ package com.example.demo.dominio;
 
 import java.io.Serializable;
 
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+
+import com.example.demo.dominio.enums.DivisaoTreino;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class MontagemTreino implements Serializable{
@@ -15,36 +17,44 @@ public class MontagemTreino implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-	//private String divisao;
-	private String nome;
+	
+	@JsonIgnore
+	@EmbeddedId
+	private MontagemTreinoPK id = new MontagemTreinoPK();
+	
 	private String serie;
 	private String reps;
 	private String carga;
 	private String obs;
-	
-	@ManyToOne
-	@JoinColumn(name = "grupoMuscular_id")
-	private GrupoMuscular grupoMuscular;
+	private DivisaoTreino divisaoTreino;
 	
 	public MontagemTreino() {}
 
-	public MontagemTreino(Integer id, String nome, String serie, String reps, String carga, GrupoMuscular grupoMuscular) {
+	public MontagemTreino(Ficha ficha, Exercicio exercicio, String serie, String reps, String carga, DivisaoTreino divisaoTreino) {
 		super();
-		this.id = id;
-		this.nome = nome;
+		id.setFicha(ficha);
+		id.setExercicio(exercicio);
 		this.serie = serie;
 		this.reps = reps;
 		this.carga = carga;
-		this.grupoMuscular = grupoMuscular;
+		this.divisaoTreino = divisaoTreino;
 	}
 
-	public Integer getId() {
-		return id;
+	@JsonIgnore
+	public Ficha getFicha() {
+		return id.getFicha();
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setFicha(Ficha ficha) {
+		id.setFicha(ficha);
+	}
+	
+	public Exercicio getExercicio() {
+		return id.getExercicio();
+	}
+
+	public void setExercicio(Exercicio ficha) {
+		id.setExercicio(ficha);
 	}
 
 	public String getSerie() {
@@ -79,20 +89,12 @@ public class MontagemTreino implements Serializable{
 		this.obs = obs;
 	}
 	
-	public String getNome() {
-		return nome;
+	public DivisaoTreino getDivisaoTreino() {
+		return divisaoTreino;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-	
-	public GrupoMuscular getGrupoMuscular() {
-		return grupoMuscular;
-	}
-
-	public void setGrupoMuscular(GrupoMuscular grupoMuscular) {
-		this.grupoMuscular = grupoMuscular;
+	public void setDivisaoTreino(DivisaoTreino divisaoTreino) {
+		this.divisaoTreino = divisaoTreino;
 	}
 
 	@Override
