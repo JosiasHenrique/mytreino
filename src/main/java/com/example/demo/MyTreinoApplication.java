@@ -14,7 +14,7 @@ import com.example.demo.entities.Ficha;
 import com.example.demo.entities.GrupoMuscular;
 import com.example.demo.entities.MontagemTreino;
 import com.example.demo.entities.Professor;
-import com.example.demo.entities.User;
+import com.example.demo.entities.Usuario;
 import com.example.demo.entities.enums.DivisaoTreino;
 import com.example.demo.entities.enums.Perfil;
 import com.example.demo.repositories.AlunoRepository;
@@ -23,7 +23,7 @@ import com.example.demo.repositories.FichaRepository;
 import com.example.demo.repositories.GrupoMuscularRepository;
 import com.example.demo.repositories.MontagemTreinoRepository;
 import com.example.demo.repositories.ProfessorRepository;
-import com.example.demo.repositories.UserRepository;
+import com.example.demo.repositories.UsuarioRepository;
 
 @SpringBootApplication
 public class MyTreinoApplication implements CommandLineRunner {
@@ -32,7 +32,7 @@ public class MyTreinoApplication implements CommandLineRunner {
 	private BCryptPasswordEncoder pe;
 
 	@Autowired
-	private UserRepository userRepository;
+	private UsuarioRepository userRepository;
 	
 	@Autowired
 	private ProfessorRepository professorRepository;
@@ -58,8 +58,8 @@ public class MyTreinoApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		User user = new User(null, "josias@gmail.com", pe.encode("123"));
-		User user1 = new User(null, "lucas@gmail.com", pe.encode("123"));
+		Usuario user = new Usuario(null, "josias@gmail.com", pe.encode("123"));
+		Usuario user1 = new Usuario(null, "lucas@gmail.com", pe.encode("123"));
 		
 		user.addPerfil(Perfil.ALUNO);
 		user1.addPerfil(Perfil.PROFESSOR);

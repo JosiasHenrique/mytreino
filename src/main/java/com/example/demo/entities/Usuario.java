@@ -16,26 +16,27 @@ import com.example.demo.entities.enums.Perfil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class User {
+public class Usuario {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private String email, senha;
+	private String email;
+	private String senha;
 	
 	@JsonIgnore
 	@ElementCollection(fetch=FetchType.EAGER)
 	@CollectionTable(name="PERFIS")
 	private Set<Integer> perfis = new HashSet<>();
 	
-	public User() {
+	public Usuario() {
 		
 	}
 	
-	public User(Integer id, String email, String senha) {
+	public Usuario(Integer id, String email, String senha) {
+		this.id = id;
 		this.email = email;
 		this.senha = senha;
-		this.id = id;
 	}
 	
 	public Integer getId() {
@@ -86,7 +87,7 @@ public class User {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		User other = (User) obj;
+		Usuario other = (Usuario) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

@@ -33,20 +33,20 @@ public class Aluno implements Serializable {
 
 	@JsonIgnore
 	@OneToOne
-	private User user;
+	private Usuario usuario;
 
 	public Aluno() {
 
 	}
 
-	public Aluno(Integer id, String nome, String sexo, Integer idade, Double altura, Double peso, User user) {
+	public Aluno(Integer id, String nome, String sexo, Integer idade, Double altura, Double peso, Usuario usuario) {
 		this.id = id;
 		this.nome = nome;
 		this.sexo = sexo;
 		this.idade = idade;
 		this.altura = altura;
 		this.peso = peso;
-		this.user = user;
+		this.usuario = usuario;
 	}
 
 	public Integer getId() {
@@ -105,11 +105,11 @@ public class Aluno implements Serializable {
 		this.ficha = ficha;
 	}
 
-	public User getUser() {
-		return user;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 }

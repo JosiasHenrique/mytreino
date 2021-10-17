@@ -20,26 +20,26 @@ public class Professor implements Serializable {
 	private Integer idade;
 
 	@OneToOne
-	private User user;
+	private Usuario usuario;
 
 	public Professor() {
 
 	}
 
-	public Professor(Integer id, String nome, String sexo, Integer idade, User user) {
+	public Professor(Integer id, String nome, String sexo, Integer idade, Usuario usuario) {
 		this.id = id;
 		this.nome = nome;
 		this.sexo = sexo;
 		this.idade = idade;
-		this.user = user;
+		this.usuario = usuario;
 	}
 
-	public User getUser() {
-		return user;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	public Integer getId() {

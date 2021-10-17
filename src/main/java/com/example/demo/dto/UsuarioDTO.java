@@ -2,20 +2,20 @@ package com.example.demo.dto;
 
 import java.io.Serializable;
 
-import com.example.demo.entities.User;
+import com.example.demo.entities.Usuario;
 
-public class UserDTO implements Serializable{
+public class UsuarioDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
 	
 	private String email;
 	
-	public UserDTO() {
+	public UsuarioDTO() {
 		
 	}
 
-	public UserDTO(User entity) {
+	public UsuarioDTO(Usuario entity) {
 		id = entity.getId();
 		email = entity.getEmail();
 	}
