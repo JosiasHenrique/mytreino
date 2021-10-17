@@ -6,41 +6,50 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.example.demo.dominio.Aluno;
-import com.example.demo.dominio.Exercicio;
-import com.example.demo.dominio.Ficha;
-import com.example.demo.dominio.GrupoMuscular;
-import com.example.demo.dominio.MontagemTreino;
-import com.example.demo.dominio.Professor;
-import com.example.demo.dominio.enums.DivisaoTreino;
-import com.example.demo.repositorios.AlunoRepositorio;
-import com.example.demo.repositorios.ExercicioRepositorio;
-import com.example.demo.repositorios.FichaRepositorio;
-import com.example.demo.repositorios.GrupoMuscularRepositorio;
-import com.example.demo.repositorios.MontagemTreinoRepositorio;
-import com.example.demo.repositorios.ProfessorRepositorio;
+import com.example.demo.entities.Aluno;
+import com.example.demo.entities.Exercicio;
+import com.example.demo.entities.Ficha;
+import com.example.demo.entities.GrupoMuscular;
+import com.example.demo.entities.MontagemTreino;
+import com.example.demo.entities.Professor;
+import com.example.demo.entities.User;
+import com.example.demo.entities.enums.DivisaoTreino;
+import com.example.demo.entities.enums.Perfil;
+import com.example.demo.repositories.AlunoRepository;
+import com.example.demo.repositories.ExercicioRepository;
+import com.example.demo.repositories.FichaRepository;
+import com.example.demo.repositories.GrupoMuscularRepository;
+import com.example.demo.repositories.MontagemTreinoRepository;
+import com.example.demo.repositories.ProfessorRepository;
+import com.example.demo.repositories.UserRepository;
 
 @SpringBootApplication
 public class MyTreinoApplication implements CommandLineRunner {
 
 	@Autowired
-	private ProfessorRepositorio professorRepositorio;
+	private BCryptPasswordEncoder pe;
 
 	@Autowired
-	private AlunoRepositorio alunoRepositorio;
-
+	private UserRepository userRepository;
+	
 	@Autowired
-	private GrupoMuscularRepositorio grupoMuscularRepositorio;
-
+	private ProfessorRepository professorRepository;
+	
+	@Autowired AlunoRepository alunoRepository;
+	
 	@Autowired
-	private ExercicioRepositorio exercicioRepositorio;
-
+	private GrupoMuscularRepository grupoMuscularRepository;
+	
 	@Autowired
-	private FichaRepositorio fichaRepositorio;
-
+	private ExercicioRepository exercicioRepository;
+	
 	@Autowired
-	private MontagemTreinoRepositorio montagemTreinoRepositorio;
+	private FichaRepository fichaRepository;
+	
+	@Autowired
+	private MontagemTreinoRepository montagemTreinoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(MyTreinoApplication.class, args);
@@ -49,15 +58,19 @@ public class MyTreinoApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		Professor prof = new Professor(null, "Lucas Gado", "Masculino", 21, 1045.0);
+		User user = new User(null, "josias@gmail.com", pe.encode("123"));
+		User user1 = new User(null, "lucas@gmail.com", pe.encode("123"));
+		
+		user.addPerfil(Perfil.ALUNO);
+		user1.addPerfil(Perfil.PROFESSOR);
+		
+		Professor prof = new Professor(null, "Lucas Augusto", "Masculino", 23, user1);
+		Aluno aluno = new Aluno(null, "Josias Henrique", "Masculino", 22, 1.70, 90.0, user);
 
-		professorRepositorio.saveAll(Arrays.asList(prof));
-
-		Aluno al = new Aluno(null, "Josias Henrique", "Masculino", 22, 1.73, 87.0);
-		Aluno al2 = new Aluno(null, "Maria Helena", "Feminino", 33, 1.68, 110.0);
-		Aluno al3 = new Aluno(null, "Julia Marilia", "Feminino", 19, 1.60, 56.0);
-
-		alunoRepositorio.saveAll(Arrays.asList(al, al2, al3));
+		
+		userRepository.saveAll(Arrays.asList(user, user1));
+		professorRepository.saveAll(Arrays.asList(prof));
+		
 
 		GrupoMuscular gm = new GrupoMuscular(null, "Peito");
 		GrupoMuscular gm1 = new GrupoMuscular(null, "Costas");
@@ -68,7 +81,7 @@ public class MyTreinoApplication implements CommandLineRunner {
 		GrupoMuscular gm6 = new GrupoMuscular(null, "Tríceps");
 		GrupoMuscular gm7 = new GrupoMuscular(null, "Outros");
 
-		grupoMuscularRepositorio.saveAll(Arrays.asList(gm, gm1, gm2, gm3, gm4, gm5, gm6, gm7));
+		grupoMuscularRepository.saveAll(Arrays.asList(gm, gm1, gm2, gm3, gm4, gm5, gm6, gm7));
 
 		Exercicio ex = new Exercicio(null, "Supino Reto", gm);
 		Exercicio ex1 = new Exercicio(null, "Supino Inclinado", gm);
@@ -87,31 +100,21 @@ public class MyTreinoApplication implements CommandLineRunner {
 		gm.getExercicios().addAll(Arrays.asList(ex, ex1, ex2, ex3, ex4, ex5));
 		gm1.getExercicios().addAll(Arrays.asList(ex6, ex7, ex8, ex9, ex10, ex11));
 
-		exercicioRepositorio.saveAll(Arrays.asList(ex, ex1, ex2, ex3, ex4, ex5, ex6, ex7, ex8, ex9, ex10, ex11));
-
-		Ficha fc = new Ficha(null, al, prof);
-
-		fichaRepositorio.saveAll(Arrays.asList(fc));
-
-		al.setFicha(fc);
-
+		exercicioRepository.saveAll(Arrays.asList(ex, ex1, ex2, ex3, ex4, ex5, ex6, ex7, ex8, ex9, ex10, ex11));
+		Ficha fc = new Ficha(null, aluno);
+		aluno.setFicha(fc);
+		alunoRepository.saveAll(Arrays.asList(aluno));
+		fichaRepository.saveAll(Arrays.asList(fc));
+	
+		
 		MontagemTreino mt = new MontagemTreino(fc, ex, "3", "12", null, DivisaoTreino.A);
 		MontagemTreino mt1 = new MontagemTreino(fc, ex1, "3", "12", null, DivisaoTreino.A);
 		MontagemTreino mt2 = new MontagemTreino(fc, ex2, "3", "12", null, DivisaoTreino.A);
 		MontagemTreino mt3 = new MontagemTreino(fc, ex3, "3", "12", null, DivisaoTreino.A);
 		MontagemTreino mt4 = new MontagemTreino(fc, ex4, "3", "12", null, DivisaoTreino.A);
 		MontagemTreino mt5 = new MontagemTreino(fc, ex9, "3", "12", null, DivisaoTreino.B);
-
-		if (mt.getCarga() == null) {
-			mt.setCarga("Não informado");
-		}
-		if (mt.getObs() == null) {
-			mt.setObs("Não informado");
-		}
-
+		
 		fc.getMontagens().addAll(Arrays.asList(mt, mt1, mt2, mt3, mt4, mt5));
-		montagemTreinoRepositorio.saveAll(Arrays.asList(mt, mt1, mt2, mt3, mt4, mt5));
-
+		montagemTreinoRepository.saveAll(Arrays.asList(mt, mt1, mt2, mt3, mt4, mt5));
 	}
-
 }
