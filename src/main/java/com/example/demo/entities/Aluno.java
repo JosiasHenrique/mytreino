@@ -11,8 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 public class Aluno implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -27,11 +25,9 @@ public class Aluno implements Serializable {
 	private Double altura;
 	private Double peso;
 
-	@JsonIgnore
-	@OneToOne(mappedBy = "aluno", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
+	@OneToOne(mappedBy = "aluno", cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = true)
 	private Ficha ficha;
 
-	@JsonIgnore
 	@OneToOne
 	private Usuario usuario;
 

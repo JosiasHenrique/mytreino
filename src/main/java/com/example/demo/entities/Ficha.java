@@ -12,6 +12,8 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Ficha implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -19,12 +21,13 @@ public class Ficha implements Serializable {
 	@Id
 	private Integer id;
 
+	@JsonIgnore
 	@MapsId
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "PK_ALUNO")
 	private Aluno aluno;
 
-	@OneToMany(mappedBy = "id.ficha")
+	@OneToMany(mappedBy = "id.ficha", fetch = FetchType.EAGER)
 	private Set<MontagemTreino> montagens = new HashSet<>();
 
 	public Ficha() {
